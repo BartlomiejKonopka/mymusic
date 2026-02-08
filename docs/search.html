@@ -3,13 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Wyniki wyszukiwania</title>
+  <title>Barteks Music Reviews</title>
+  <link rel="icon" type="image/x-icon" href="favicons/favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/png" href="favicons/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="favicons/favicon-16x16.png" sizes="16x16">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
 <header>
-  <input id="searchInput" placeholder="Szukaj artysty lub albumu">
+  <div class="search-wrapper">
+    <input id="searchInput" placeholder="Szukaj artysty lub albumu">
+    <div id="autocomplete" class="autocomplete-list"></div>
+  </div>
+  <button id="backBtn">Strona główna</button>
 </header>
 
 <main class="grid" id="results"></main>
