@@ -3,8 +3,15 @@
 let reviews = [];
 
 function loadReviews() {
-  const isRoot = !location.pathname.match(/\/(all|review|search)\//);
-  const prefix = isRoot ? "" : "../";
+  // Wykrywanie prefixu na podstawie atrybutu src skryptu utils.js
+  let prefix = "";
+  const script = document.querySelector('script[src*="utils.js"]');
+  if (script) {
+    const src = script.getAttribute('src');
+    if (src && src.startsWith("../")) {
+      prefix = "../";
+    }
+  }
 
   return fetch(`${prefix}js/reviews.json`)
     .then(r => {
@@ -12,10 +19,10 @@ function loadReviews() {
       return r.json();
     })
     .then(data => {
-      if (!isRoot) {
+      if (prefix === "../") {
         data.forEach(r => {
-          if (r.cover && !r.cover.startsWith("http")) {
-            r.cover = "../" + r.cover;
+          if (r.cover && !r.cover.startsWith("http") && !r.cover.startsWith("../")) {
+            r.cover = prefix + r.cover;
           }
         });
       }
@@ -50,14 +57,7 @@ function searchReviews(q, limit = 30) {
 function bindSearch(input) {
   input.addEventListener("keydown", e => {
     if (e.key === "Enter") {
-      // Sprawdzamy czy jesteśmy na podstronie (np. folder all/, review/ itp)
-      // Jeśli URL kończy się na 'mymusic/' lub 'index.html', to jesteśmy w root.
-      // Najprościej: jeśli nie ma elementu "feed" (który jest tylko na index.html), to pewnie podstrona.
-      // Ale utils.js nie powinien polegać na DOM z main.js w ten sposób.
-      // Użyjmy bezpieczniejszego path detect.
-      const isRoot = !location.pathname.match(/\/(all|review|search)\//);
-      const prefix = isRoot ? "" : "../";
-      location.href = `${prefix}search/?q=${encodeURIComponent(input.value)}`;
+      location.href = `search.html?q=${encodeURIComponent(input.value)}`;
     }
   });
 }
@@ -200,9 +200,7 @@ function initAutocomplete(input) {
       item.innerHTML = `${artistHTML} – ${albumHTML}`;
 
       item.addEventListener("click", () => {
-        const isRoot = !location.pathname.match(/\/(all|review|search)\//);
-        const prefix = isRoot ? "" : "../";
-        location.href = `${prefix}review/?id=${r.id}`;
+        location.href = `review.html?id=${r.id}`;
       });
 
       container.appendChild(item);
