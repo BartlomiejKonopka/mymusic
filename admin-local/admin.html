@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Local Admin</title>
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>Local Admin</h1>
+      <p>Use a local server. This page is not meant to be hosted.</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <h2>Repository Settings</h2>
+      <div class="grid">
+        <label>
+          Owner
+          <input id="owner" placeholder="user-or-org">
+        </label>
+        <label>
+          Repo
+          <input id="repo" placeholder="repo-name">
+        </label>
+        <label>
+          Branch
+          <input id="branch" value="main">
+        </label>
+        <label>
+          Reviews JSON path (repo)
+          <input id="reviewsPath" value="docs/js/reviews.json">
+        </label>
+        <label>
+          Covers path (repo)
+          <input id="coversPath" value="docs/covers">
+        </label>
+        <label>
+          Cover URL prefix
+          <input id="coverUrlPrefix" value="covers">
+        </label>
+        <label>
+          GitHub token (PAT)
+          <input id="token" type="password" placeholder="ghp_...">
+        </label>
+      </div>
+      <div class="row">
+        <button id="loadBtn" type="button">Load reviews</button>
+        <div class="meta">Next ID: <span id="nextId">-</span></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>New Review</h2>
+      <form id="reviewForm">
+        <div class="grid">
+          <label>
+            Artist
+            <input id="artist" required>
+          </label>
+          <label>
+            Album
+            <input id="album" required>
+          </label>
+          <label>
+            Release date
+            <input id="releaseDate" placeholder="YYYY-MM-DD">
+          </label>
+          <label>
+            Cover file
+            <input id="coverFile" type="file" accept="image/*" required>
+          </label>
+          <label>
+            Cover path preview
+            <input id="coverPreview" disabled>
+          </label>
+        </div>
+        <label>
+          Review (Markdown)
+          <textarea id="review" rows="12" required></textarea>
+        </label>
+        <div class="row">
+          <button type="submit">Create commit</button>
+          <div id="status" class="status"></div>
+        </div>
+      </form>
+    </section>
+
+    <section class="card">
+      <h2>Preview</h2>
+      <div id="preview" class="preview"></div>
+    </section>
+  </main>
+
+  <script src="../docs/js/utils.js" defer></script>
+  <script src="admin.js" defer></script>
+</body>
+</html>
