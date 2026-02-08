@@ -33,10 +33,18 @@
   },
   {
     "id": 5,
-    "artist": "Przykładowy artysta",
-    "album": "Przykładowy album",
+    "artist": "artysta",
+    "album": "album",
     "releaseDate": "2 lutego 2026",
     "cover": "covers/no-cover.jpg",
-    "review": "To jest przykładowa recenzja. Możesz edytować ten tekst bezpośrednio w pliku `reviews.json`.\n\nDodawanie nowych recenzji jest teraz znacznie wygodniejsze — możesz pisać je w prostym **Markdown** bez potrzeby dodawania znaczników HTML.\n\n**Najlepsze kawałki:**\n\n- Kawałek 1\n- Kawałek 2\n- Kawałek 3\n\nOcena: 7/10"
+    "review": "aaaaaaaaaa"
+  },
+  {
+    "id": 6,
+    "artist": "asd",
+    "album": "asd",
+    "releaseDate": "",
+    "cover": "covers/6.jpg",
+    "review": "asd"
   }
 ]

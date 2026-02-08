@@ -55,6 +55,12 @@ body {
   font-size: 18px;
 }
 
+.note {
+  margin: 0 0 12px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
