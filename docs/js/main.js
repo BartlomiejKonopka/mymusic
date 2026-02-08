@@ -20,12 +20,7 @@ function initPage() {
   // Przycisk "Powrót" na all.html/review.html
   const backBtn = document.getElementById("backBtn");
   if (backBtn) {
-    // Jeśli jesteśmy na review.html, przenosimy do index.html
-    if (document.getElementById("review")) {
-      backBtn.onclick = () => location.href = "index.html";
-    } else {
-      backBtn.onclick = () => history.back();
-    }
+    backBtn.onclick = () => location.href = "index.html";
   }
 
   // Logika dla index.html
