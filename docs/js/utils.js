@@ -3,12 +3,22 @@
 let reviews = [];
 
 function loadReviews() {
-  return fetch('js/reviews.json')
+  const isRoot = !location.pathname.match(/\/(all|review|search)\//);
+  const prefix = isRoot ? "" : "../";
+
+  return fetch(`${prefix}js/reviews.json`)
     .then(r => {
       if (!r.ok) throw new Error('Network response was not ok');
       return r.json();
     })
     .then(data => {
+      if (!isRoot) {
+        data.forEach(r => {
+          if (r.cover && !r.cover.startsWith("http")) {
+            r.cover = "../" + r.cover;
+          }
+        });
+      }
       reviews = data;
       return data;
     })
