@@ -14,13 +14,13 @@ function initPage() {
   // Przycisk "Wszystkie" na index.html
   const allBtn = document.getElementById("allBtn");
   if (allBtn) {
-    allBtn.onclick = () => location.href = "all.html";
+    allBtn.onclick = () => location.href = "all/";
   }
 
-  // Przycisk "Powrót" na all.html/review.html
+  // Przycisk "Powrót" na all/index.html / review/index.html
   const backBtn = document.getElementById("backBtn");
   if (backBtn) {
-    backBtn.onclick = () => location.href = "index.html";
+    backBtn.onclick = () => location.href = "../";
   }
 
   // Logika dla index.html
@@ -54,7 +54,9 @@ function initPage() {
         </div>
       `;
       d.addEventListener("click", () => {
-        location.href = `review.html?id=${r.id}`;
+        // Jeśli jesteśmy w folderze all/ to musimy wyjść "wyżej" żeby wejść do review/
+        // Ale all i review są na tym samym poziomie względem roota, więc ../review/ zadziała
+        location.href = `../review/?id=${r.id}`;
       });
       grid.appendChild(d);
     });
@@ -79,7 +81,7 @@ function initPage() {
       d.className = "cover";
       d.innerHTML = `
         <img src="${r.cover}" loading="lazy" alt="${escapeHtml(r.album)}">
-        <div class="overlay">${r.artist}<br>${r.album}</div>
+        <div class="overlay">${r.artist}<../review/m}</div>
       `;
       d.onclick = () => location.href = `review.html?id=${r.id}`;
       box.appendChild(d);
