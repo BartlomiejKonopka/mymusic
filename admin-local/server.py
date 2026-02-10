@@ -26,8 +26,7 @@ def save_reviews(reviews):
 
 
 def next_id(reviews):
-    max_id = max([int(r.get("id", 0)) for r in reviews] + [0])
-    return max_id + 1
+    return max((int(r.get("id", 0)) for r in reviews), default=0) + 1
 
 
 def safe_ext(filename):
@@ -44,14 +43,9 @@ def admin_index():
     return send_from_directory(ADMIN_DIR, "admin.html")
 
 
-@app.get("/admin.css")
-def admin_css():
-    return send_from_directory(ADMIN_DIR, "admin.css")
-
-
-@app.get("/admin.js")
-def admin_js():
-    return send_from_directory(ADMIN_DIR, "admin.js")
+@app.get("/admin.<path:filename>")
+def admin_assets(filename):
+    return send_from_directory(ADMIN_DIR, f"admin.{filename}")
 
 
 @app.get("/favicon.ico")

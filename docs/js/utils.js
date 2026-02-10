@@ -3,32 +3,12 @@
 let reviews = [];
 
 function loadReviews() {
-  // Wykrywanie prefixu na podstawie atrybutu src skryptu utils.js
-  let prefix = "";
-  const script = document.querySelector('script[src*="utils.js"]');
-  if (script) {
-    const src = script.getAttribute('src');
-    if (src && src.startsWith("../")) {
-      prefix = "../";
-    }
-  }
-
-  return fetch(`${prefix}js/reviews.json`)
+  return fetch("js/reviews.json")
     .then(r => {
       if (!r.ok) throw new Error('Network response was not ok');
       return r.json();
     })
-    .then(data => {
-      if (prefix === "../") {
-        data.forEach(r => {
-          if (r.cover && !r.cover.startsWith("http") && !r.cover.startsWith("../")) {
-            r.cover = prefix + r.cover;
-          }
-        });
-      }
-      reviews = data;
-      return data;
-    })
+    .then(data => { reviews = data; })
     .catch(err => {
       console.error('Błąd wczytywania reviews:', err);
       throw err;
@@ -39,11 +19,6 @@ function loadReviews() {
 
 function getReviewById(id) {
   return reviews.find(r => r.id === Number(id));
-}
-
-function getNextReview(id) {
-  const i = reviews.findIndex(r => r.id === id);
-  return reviews[i + 1] || null;
 }
 
 function searchReviews(q, limit = 30) {
@@ -127,11 +102,15 @@ function reviewToHtml(reviewContent) {
   return markdownToHtml(reviewContent);
 }
 
-function snippetFromReview(r, maxLen = 220) {
-  const html = reviewToHtml(r.review);
-  const text = html.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
-  if (text.length <= maxLen) return escapeHtml(text);
-  return escapeHtml(text.slice(0, maxLen).trim()) + '…';
+function createCoverCard(r) {
+  const d = document.createElement("div");
+  d.className = "cover";
+  d.innerHTML = `
+    <img src="${r.cover}" loading="lazy" alt="${escapeHtml(r.album)}">
+    <div class="overlay">${r.artist}<br>${r.album}</div>
+  `;
+  d.onclick = () => location.href = `review.html?id=${r.id}`;
+  return d;
 }
 
 function renderReview(r) {

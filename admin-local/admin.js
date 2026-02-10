@@ -100,11 +100,10 @@ el.form.addEventListener("submit", async e => {
 
     state.nextId = (data.id || state.nextId) + 1;
     el.nextId.textContent = String(state.nextId);
-    updateCoverPreview();
-    setStatus("Saved locally. Commit when ready.");
     el.form.reset();
     updateCoverPreview();
     updatePreview();
+    setStatus("Saved locally. Commit when ready.");
   } catch (err) {
     setStatus(err.message || "Save failed.", true);
   }

@@ -138,14 +138,7 @@ main {
   margin-bottom: 20px;
 }
 
-.post img {
-  width: 100%;
-  max-width: 420px;
-  display: block;
-  margin: 24px 0;
-  border: 1px solid var(--border);
-}
-
+.post img,
 #review img {
   width: 100%;
   max-width: 420px;

@@ -1,9 +1,5 @@
-// main.js - obsługuje wszystkie strony
+// main.js
 
-// Wspólne funkcje z utils.js
-// ...
-
-// Funkcja inicjalizacji - czeka aż reviews będą wczytane
 function initPage() {
   const searchInput = document.getElementById("searchInput");
   if (searchInput) {
@@ -11,21 +7,15 @@ function initPage() {
     initAutocomplete(searchInput);
   }
 
-  // Przycisk "Wszystkie" na index.html
   const allBtn = document.getElementById("allBtn");
-  if (allBtn) {
-    allBtn.onclick = () => location.href = "all.html";
-  }
+  if (allBtn) allBtn.onclick = () => location.href = "all.html";
 
-  // Przycisk "Powrót" na all.html/review.html
   const backBtn = document.getElementById("backBtn");
-  if (backBtn) {
-    backBtn.onclick = () => location.href = "index.html";
-  }
+  if (backBtn) backBtn.onclick = () => location.href = "index.html";
 
-  // Logika dla index.html
-  if (document.getElementById("feed")) {
-    // Wyświetl wszystkie recenzje (posortowane malejąco po ID - najnowsze na górze)
+  // index.html
+  const feed = document.getElementById("feed");
+  if (feed) {
     reviews.sort((a, b) => b.id - a.id).forEach(r => {
       const article = document.createElement("article");
       article.className = "post";
@@ -40,59 +30,36 @@ function initPage() {
     });
   }
 
-  // Logika dla all.html
-  if (document.getElementById("grid")) {
-    const grid = document.getElementById("grid");
-    // Sortuj malejąco po id (najnowsze najpierw) i pokaż pierwsze 30
+  // all.html
+  const grid = document.getElementById("grid");
+  if (grid) {
     reviews.sort((a, b) => b.id - a.id).slice(0, 30).forEach(r => {
-      const d = document.createElement("div");
-      d.className = "cover";
-      d.innerHTML = `
-        <img src="${r.cover}" loading="lazy" alt="${escapeHtml(r.album)}">
-        <div class="overlay">
-          ${r.artist}<br>${r.album}
-        </div>
-      `;
-      d.addEventListener("click", () => {
-        location.href = `review.html?id=${r.id}`;
-      });
-      grid.appendChild(d);
+      grid.appendChild(createCoverCard(r));
     });
   }
 
-  // Logika dla review.html
+  // review.html
   if (document.getElementById("review")) {
     const id = new URLSearchParams(location.search).get("id");
     const r = getReviewById(id);
     if (r) renderReview(r);
   }
 
-  // Logika dla search.html
-  if (document.getElementById("results")) {
+  // search.html
+  const results = document.getElementById("results");
+  if (results) {
     const q = new URLSearchParams(location.search).get("q") || "";
-    const searchInput = document.getElementById("searchInput");
     if (searchInput) searchInput.value = q;
-    const results = searchReviews(q);
-    const box = document.getElementById("results");
-    results.forEach(r => {
-      const d = document.createElement("div");
-      d.className = "cover";
-      d.innerHTML = `
-        <img src="${r.cover}" loading="lazy" alt="${escapeHtml(r.album)}">
-        <div class="overlay">${r.artist}<br>${r.album}</div>
-      `;
-      d.onclick = () => location.href = `review.html?id=${r.id}`;
-      box.appendChild(d);
+    searchReviews(q).forEach(r => {
+      results.appendChild(createCoverCard(r));
     });
   }
 }
 
-// Czeka aż strona się załaduje a potem wczytuje reviews i inicjalizuje stronę
 window.addEventListener("DOMContentLoaded", () => {
   loadReviews()
-    .then(() => initPage())
+    .then(initPage)
     .catch(err => {
-      // Jeśli wczytywanie danych się nie powiodło, nadal próbuj uruchomić initPage
       console.error('Nie udało się wczytać recenzji:', err);
       initPage();
     });
