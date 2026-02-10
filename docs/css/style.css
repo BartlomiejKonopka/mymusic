@@ -45,7 +45,7 @@ header input {
   font-size: 16px;
 }
 
-header button {
+button {
   background: var(--accent);
   border: none;
   color: #fff;
@@ -56,7 +56,7 @@ header button {
   flex-shrink: 0;
 }
 
-header button:hover {
+button:hover {
   opacity: 0.9;
 }
 
