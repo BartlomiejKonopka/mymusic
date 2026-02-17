@@ -19,6 +19,15 @@ body {
   line-height: 1.6;
 }
 
+a,
+a:visited {
+  color: var(--text-dim);
+}
+
+a:hover {
+  color: var(--text);
+}
+
 /* ===== HEADER ===== */
 
 header {
