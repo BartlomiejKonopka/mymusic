@@ -51,12 +51,13 @@ function markdownToHtml(md) {
   // Inline code
   md = md.replace(/`([^`]+)`/g, '<code>$1</code>');
   // Headings
-  md = md.replace(/^######\s*(.+)$/gm, '<h6>$1</h6>');
-  md = md.replace(/^#####\s*(.+)$/gm, '<h5>$1</h5>');
-  md = md.replace(/^####\s*(.+)$/gm, '<h4>$1</h4>');
-  md = md.replace(/^###\s*(.+)$/gm, '<h3>$1</h3>');
-  md = md.replace(/^##\s*(.+)$/gm, '<h2>$1</h2>');
-  md = md.replace(/^#\s*(.+)$/gm, '<h1>$1</h1>');
+  // Require whitespace after '#' so '#tag' isn't treated as a heading.
+  md = md.replace(/^######\s+(.+)$/gm, '<h6>$1</h6>');
+  md = md.replace(/^#####\s+(.+)$/gm, '<h5>$1</h5>');
+  md = md.replace(/^####\s+(.+)$/gm, '<h4>$1</h4>');
+  md = md.replace(/^###\s+(.+)$/gm, '<h3>$1</h3>');
+  md = md.replace(/^##\s+(.+)$/gm, '<h2>$1</h2>');
+  md = md.replace(/^#\s+(.+)$/gm, '<h1>$1</h1>');
   // Bold / italic
   md = md.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
   md = md.replace(/__(.+?)__/g, '<strong>$1</strong>');
